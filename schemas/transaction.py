@@ -24,3 +24,8 @@ class TransactionResponse(TransactionCreate):
     id: int
     user_id: str
     
+    class Config:
+        from_attributes = True
+        
+class TransactionInDB(TransactionResponse):
+    pass

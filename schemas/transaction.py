@@ -15,11 +15,12 @@ class TransactionCreate(BaseModel):
     date: datetime | None = None         # None = pakai waktu sekarang (diisi di service)
     desc: str | None = Field(None, max_length=200)
 
+    @field_validator("category_name")
+    @classmethod
+    def lower_category_name(cls, value : str) -> str:
+        return value.strip().lower()
+    
 class TransactionResponse(TransactionCreate):
     id: int
     user_id: str
     
-@field_validator("category_type")
-@classmethod
-def lower_category_name(cls, value : str) -> str:
-    return value.strip().lower()

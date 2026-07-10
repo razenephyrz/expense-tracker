@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from enum import Enum
 from decimal import Decimal
@@ -18,3 +18,8 @@ class TransactionCreate(BaseModel):
 class TransactionResponse(TransactionCreate):
     id: int
     user_id: str
+    
+@field_validator("category_type")
+@classmethod
+def lower_category_name(cls, value : str) -> str:
+    return value.strip().lower()

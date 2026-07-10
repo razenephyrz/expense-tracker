@@ -1,12 +1,8 @@
 from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
-from enum import Enum
+from domain.transaction import TransactionType
 from decimal import Decimal
 
-class TransactionType(str, Enum):
-    income = "income"
-    expense = "expense"
-    transfer = "transfer"
 
 class TransactionCreate(BaseModel):
     category_name: str = Field(..., min_length=3)

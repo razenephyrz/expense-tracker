@@ -29,20 +29,23 @@ class Transaction:
         return value.strip().lower()
     
     @staticmethod
-    def amount_validator(value: Decimal) -> Decimal:
-        if not isinstance(value, Decimal):
-            raise ValueError("Tidak boleh input selain angka")
-        if value <= 0:
-            raise ValueError("Angka tidak boleh 0 atau negatif")
-        return value
-    
+    def amount_validator(value: float) -> Decimal:
+        tmp = 0
+        try:
+            tmp = Decimal(str(value))
+        except ValueError as e:
+            raise ValueError(f"Input harus angka {value!r}") from e
+
+        if tmp <= 0:
+            raise ValueError("Mohon masukkan angka positif")
+        return tmp
     @staticmethod
     def type_validator(value: str) -> TransactionType:
         tmp = value.strip().lower()
         try:
             return TransactionType(tmp)
-        except ValueError:
-            print("Type tidak tersedia")
+        except ValueError as e:
+            raise ValueError(f"Tipe tidak valid {value!r}") from e
     
     @staticmethod
     def date_validator(value: str | None) -> date | None:
@@ -59,5 +62,3 @@ class Transaction:
             raise ValueError("Deskripsi tidak boleh lebih dari 200 huruf")
         return value
     
-p = Transaction.date_validator("ini tanggal")
-print(p)

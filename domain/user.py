@@ -13,7 +13,7 @@ class User:
         username : str,
         email : EmailStr,
         password : str,
-        balances : Decimal,
+        balances : Decimal = 0,
         id : UUID | None = None,
     ):
         self._id = id if id is not None else uuid4()
@@ -31,6 +31,7 @@ class User:
             raise ValueError("Panjang username tidak boleh lebih dar 40 karakter")
         return tmp
     
+    @staticmethod
     def email_validator(value: str) -> str:
         tmp = value.strip().lower()
         if not _EMAIL_PATTERN.match(tmp):
@@ -47,12 +48,14 @@ class User:
     
     @staticmethod
     def balances_validator(value: float) -> Decimal:
+        if value is None:
+            return 0        
         tmp = 0
         try:
             tmp = Decimal(str(value))
         except (ValueError, InvalidOperation) as e:
             raise ValueError(f"Mohon masukkan angka yang valid {value!r}") from e
-        if tmp <= 0:
+        if tmp < 0:
             raise ValueError("Mohon masukkan angka positif")
         return tmp
     

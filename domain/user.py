@@ -59,3 +59,5 @@ class User:
             raise ValueError("Mohon masukkan angka positif")
         return tmp
     
+    def __str__(self):
+        return self._username + " " + self._email + " " + self._password + " " + str(self._balances) + " " + str(self._id)

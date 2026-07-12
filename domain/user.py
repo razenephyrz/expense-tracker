@@ -1,6 +1,10 @@
 from uuid import uuid4, UUID
 from pydantic import EmailStr
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
+import bcrypt
+import re
+
+_EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 
 class User:
@@ -27,13 +31,10 @@ class User:
             raise ValueError("Panjang username tidak boleh lebih dar 40 karakter")
         return tmp
     
-    @staticmethod
-    def email_validator(value: str) -> EmailStr:
-        tmp = value.strip()
-        try:
-            tmp = EmailStr(tmp)
-        except (ValueError, TypeError) as e:
-            raise ValueError(f"Mohon masukkan email yang valid {value!r}") from e
+    def email_validator(value: str) -> str:
+        tmp = value.strip().lower()
+        if not _EMAIL_PATTERN.match(tmp):
+            raise ValueError("Format email tidak valid")
         return tmp
             
     @staticmethod
@@ -41,15 +42,17 @@ class User:
         tmp = value.strip()
         if len(tmp) < 8:
             raise ValueError("Password tidak boleh kurang dari 8 karakter")
-        return tmp
+        hashed = bcrypt.hashpw(tmp.encode(), bcrypt.gensalt())
+        return hashed.decode()
     
     @staticmethod
     def balances_validator(value: float) -> Decimal:
         tmp = 0
         try:
             tmp = Decimal(str(value))
-        except ValueError as e:
-            raise ValueError(f"Mohon masukkan angka yang valid {tmp!r}") from e
+        except (ValueError, InvalidOperation) as e:
+            raise ValueError(f"Mohon masukkan angka yang valid {value!r}") from e
         if tmp <= 0:
             raise ValueError("Mohon masukkan angka positif")
         return tmp
+    

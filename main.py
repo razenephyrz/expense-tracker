@@ -1,4 +1,6 @@
+from decimal import Decimal
+
 def main():
-    print("Hello, fsociety")
+    print("hallo, dunia")
 if __name__ == "__main__":
     main()

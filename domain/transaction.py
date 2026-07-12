@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from datetime import datetime, date
 from enum import Enum
 
@@ -33,12 +33,12 @@ class Transaction:
         tmp = 0
         try:
             tmp = Decimal(str(value))
-        except ValueError as e:
-            raise ValueError(f"Input harus angka {value!r}") from e
-
+        except (ValueError, InvalidOperation) as e:
+            raise ValueError(f"Input harus angka yang valid {value!r}") from e
         if tmp <= 0:
             raise ValueError("Mohon masukkan angka positif")
         return tmp
+
     @staticmethod
     def type_validator(value: str) -> TransactionType:
         tmp = value.strip().lower()
@@ -57,8 +57,9 @@ class Transaction:
             raise ValueError(f"Tanggal tidak valid {value!r}") from e
                 
     @staticmethod 
-    def desc_validator(value: str) -> str:
+    def desc_validator(value: str) -> str | None:
+        if value is None:
+            return None
         if len(value) > 200:
             raise ValueError("Deskripsi tidak boleh lebih dari 200 huruf")
         return value
-    

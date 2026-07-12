@@ -38,7 +38,6 @@ class Transaction:
         if tmp <= 0:
             raise ValueError("Mohon masukkan angka positif")
         return tmp
-
     @staticmethod
     def type_validator(value: str) -> TransactionType:
         tmp = value.strip().lower()
@@ -63,3 +62,43 @@ class Transaction:
         if len(value) > 200:
             raise ValueError("Deskripsi tidak boleh lebih dari 200 huruf")
         return value
+    
+    @property
+    def amount(self):
+        return self._amount
+    
+    @property
+    def category_name(self):
+        return self._category_name
+    
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def desc(self):
+        return self._desc
+    
+    @property
+    def date(self):
+        return self._date
+        
+    @category_name.setter
+    def category_name(self, new_value):
+        self._category_name = Transaction.category_name(new_value)
+    
+    @amount.setter
+    def amount(self, new_value):
+        self._amount = Transaction.amount_validator(new_value)
+    
+    @type.setter
+    def type(self, new_value):
+        self._type = Transaction.type_validator(new_value)
+        
+    @date.setter
+    def date(self, new_value):
+        self._date = Transaction.date_validator(new_value)
+        
+    @desc.setter
+    def desc(self, new_value):
+        self._desc = Transaction.desc_validator(new_value)

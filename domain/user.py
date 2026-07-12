@@ -49,7 +49,7 @@ class User:
     @staticmethod
     def balances_validator(value: float) -> Decimal:
         if value is None:
-            return 0        
+            return Decimal(0)        
         tmp = 0
         try:
             tmp = Decimal(str(value))
@@ -59,5 +59,36 @@ class User:
             raise ValueError("Mohon masukkan angka positif")
         return tmp
     
-    def __str__(self):
-        return self._username + " " + self._email + " " + self._password + " " + str(self._balances) + " " + str(self._id)
+    @property
+    def username(self):
+        return self._username
+    
+    @username.setter
+    def username(self, new_value):
+        self._username = User.username_validator(new_value)
+    
+    @property
+    def email(self):
+        return self._email
+    
+    @email.setter
+    def email(self, new_value):
+        self._email = User.email_validator(new_value)
+    
+    @property
+    def password(self):
+        pass
+    
+    @password.setter
+    def password(self, new_value):
+        self._password = User.password_validator(new_value)
+    
+    @property
+    def balances(self):
+        return self._balances
+    
+    @balances.setter
+    def balances(self, new_value):
+        self._balances = User.balances_validator(new_value)
+        
+    

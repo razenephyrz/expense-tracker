@@ -7,7 +7,7 @@ from decimal import Decimal
 class TransactionCreate(BaseModel):
     category_name: str = Field(..., min_length=3)
     amount: Decimal = Field(..., gt=0)   # selalu positif — arah ditentukan `type`, bukan tanda minus
-    type: TransactionType = Field(...)
+    type_name: TransactionType = Field(...)
     date: datetime | None = None         # None = pakai waktu sekarang (diisi di service)
     desc: str | None = Field(None, max_length=200)
 

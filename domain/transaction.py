@@ -47,15 +47,17 @@ class Transaction:
     @staticmethod
     def date_validator(value: str | None) -> date | None:
         if value is None:
-            return datetime.now()
+            return None
         try:
             return datetime.fromisoformat(value)
-        except ValueError:
-            print("Masukkan urutan waktu yang tepat")
-            return datetime.now()
-        
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Tanggal tidak valid {value!r}") from e
+                
     @staticmethod 
     def desc_validator(value: str) -> str:
         if len(value) > 200:
             raise ValueError("Deskripsi tidak boleh lebih dari 200 huruf")
         return value
+    
+p = Transaction.date_validator("ini tanggal")
+print(p)

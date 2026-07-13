@@ -85,7 +85,7 @@ class Transaction:
         
     @category_name.setter
     def category_name(self, new_value):
-        self._category_name = Transaction.category_name(new_value)
+        self._category_name = Transaction.category_validator(new_value)
     
     @amount.setter
     def amount(self, new_value):

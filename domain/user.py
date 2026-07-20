@@ -84,7 +84,7 @@ class User:
     @username.setter
     def username(self, new_value: str) -> None:
         self._username = User.username_validator(new_value)
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now()
 
     @property
     def email(self) -> str:
@@ -93,7 +93,7 @@ class User:
     @email.setter
     def email(self, new_value: str) -> None:
         self._email = User.email_validator(new_value)
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now()
 
     @property
     def balances(self) -> Decimal:
@@ -102,7 +102,7 @@ class User:
     @balances.setter
     def balances(self, new_value: Decimal | float | int | str) -> None:
         self._balances = User.balances_validator(new_value)
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now()
 
     @property
     def is_active(self) -> bool:

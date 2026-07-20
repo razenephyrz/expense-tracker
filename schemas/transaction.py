@@ -2,9 +2,11 @@ from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from domain.transaction import TransactionType
 from decimal import Decimal
+from uuid import UUID
 
 
 class TransactionCreate(BaseModel):
+    user_id : UUID = Field(...)
     category_name: str = Field(..., min_length=3)
     amount: Decimal = Field(..., gt=0)   # selalu positif — arah ditentukan `type`, bukan tanda minus
     type_name: TransactionType = Field(...)

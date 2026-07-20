@@ -1,6 +1,7 @@
 from decimal import Decimal, InvalidOperation
 from datetime import datetime, date
 from enum import Enum
+from uuid import UUID
 
 class TransactionType(str, Enum):
     income = "income"
@@ -10,12 +11,14 @@ class TransactionType(str, Enum):
 class Transaction:
     def __init__(
         self,
+        user_id : UUID,
         category_name: str,
         amount : Decimal,
         type : TransactionType,
         date : datetime | None = None,
         desc : str | None = None
     ):
+        self._user_id = user_id
         self._category_name = Transaction.category_validator(category_name)
         self._amount = Transaction.amount_validator(amount)
         self._type = Transaction.type_validator(type)
